@@ -50,7 +50,7 @@ i {
     margin: 0 0 0 0;
 }
 
-.bottom_icons {
+.directional_buttons {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -58,10 +58,10 @@ i {
     font-size: xx-large;
 }
 
-.tmp {
+.bottom_icons {
     display: flex;
     justify-content: center;
-    text-align: center;
     align-items: center;
     margin: 0 0 0 0;
+    font-size: xx-large;
 }
