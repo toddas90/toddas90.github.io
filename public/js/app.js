@@ -1,7 +1,7 @@
 "use strict";
 // Define the grid size and cell size
-const GRID_SIZE = 30;
-const CELL_SIZE = 20;
+const GRID_SIZE = 40;
+const CELL_SIZE = 15;
 // Define the colors for the cells
 const DEAD_COLOR = 'white';
 // Get the game board element
