@@ -1,29 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
+    <title>Conway's Game of Life</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
-    <title>Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-    <body id="main">
-        <main>
-            <h1>Andrew Todd</h1>
-            <h3>Software Engineer</h3>
-            <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
-            <div class="places">
-                <ul class="directional_buttons">
-                    <button onclick="window.location.href = 'about.html'">About</button>
-                    <button onclick="window.location.href = 'projects.html'">Projects</button>
-                    <button onclick="window.location.href = 'contact.html'">Contact</button>
-                </ul>
-            </div>
-            <!-- <div class="bottom_icons">
-                <ul class="social_media_icons">
-                    <a href="https://www.github.com/toddas90" target="_blank"><i class="fa fa-github-square"></i></a>
-                    <a href="https://www.linkedin.com/in/toddas90/" target="_blank"><i class="fa fa-linkedin-square"></i></a>
-                </ul>
-            </div> -->
-        </main>
-        <script src="public/js/app.js"></script>
-    </body>
+
+<body>
+    <div id="gameBoard"></div>
+    <div id="controls">
+        <button id="startBtn">Start</button>
+        <button id="pauseBtn">Pause</button>
+        <button id="resetBtn">Reset</button>
+    </div>
+
+    <script src="public/js/app.js"></script>
+</body>
+
 </html>
