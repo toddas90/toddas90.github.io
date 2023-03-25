@@ -4,7 +4,6 @@ const GRID_SIZE = 30;
 const CELL_SIZE = 20;
 // Define the colors for the cells
 const DEAD_COLOR = 'white';
-const ALIVE_COLOR = 'black';
 // Get the game board element
 const gameBoard = document.getElementById('gameBoard');
 // Create the grid
@@ -12,7 +11,7 @@ let grid = [];
 for (let i = 0; i < GRID_SIZE; i++) {
     grid[i] = [];
     for (let j = 0; j < GRID_SIZE; j++) {
-        grid[i][j] = Math.round(Math.random());
+        grid[i][j] = { state: Math.round(Math.random()), color: DEAD_COLOR };
     }
 }
 // Draw the grid
@@ -21,7 +20,7 @@ function drawGrid() {
     let html = '';
     for (let i = 0; i < GRID_SIZE; i++) {
         for (let j = 0; j < GRID_SIZE; j++) {
-            html += `<div class="cell" id="cell-${i}-${j}"></div>`;
+            html += `<div class="cell" id="cell-${i}-${j}" style="background-color:${grid[i][j].color}"></div>`;
         }
     }
     if (gameBoard !== null) {
@@ -31,27 +30,29 @@ function drawGrid() {
     for (let i = 0; i < cells.length; i++) {
         cells[i].addEventListener('click', () => {
             const [row, col] = cells[i].id.split('-').slice(1).map(Number);
-            grid[row][col] = grid[row][col] === 0 ? 1 : 0;
-            cells[i].style.backgroundColor = grid[row][col] === 1 ? ALIVE_COLOR : DEAD_COLOR;
+            grid[row][col].state = grid[row][col].state === 0 ? 1 : 0;
+            grid[row][col].color = grid[row][col].state === 1 ? getRandomColor() : DEAD_COLOR;
+            cells[i].style.backgroundColor = grid[row][col].color;
         });
     }
 }
 // Update the grid
 function updateGrid() {
     console.log("Update grid");
+    let newColor = getRandomColor();
     const newGrid = [];
     for (let i = 0; i < GRID_SIZE; i++) {
         newGrid[i] = [];
         for (let j = 0; j < GRID_SIZE; j++) {
             const neighbors = countNeighbors(i, j);
-            if (grid[i][j] === 1 && (neighbors < 2 || neighbors > 3)) {
-                newGrid[i][j] = 0;
+            if (grid[i][j].state === 1 && (neighbors < 2 || neighbors > 3)) {
+                newGrid[i][j] = { state: 0, color: DEAD_COLOR };
             }
-            else if (grid[i][j] === 0 && neighbors === 3) {
-                newGrid[i][j] = 1;
+            else if (grid[i][j].state === 0 && neighbors === 3) {
+                newGrid[i][j] = { state: 1, color: newColor };
             }
             else {
-                newGrid[i][j] = grid[i][j];
+                newGrid[i][j] = { state: grid[i][j].state, color: grid[i][j].color };
             }
         }
     }
@@ -59,8 +60,17 @@ function updateGrid() {
     const cells = document.getElementsByClassName('cell');
     for (let i = 0; i < cells.length; i++) {
         const [row, col] = cells[i].id.split('-').slice(1).map(Number);
-        cells[i].style.backgroundColor = grid[row][col] === 1 ? ALIVE_COLOR : DEAD_COLOR;
+        cells[i].style.backgroundColor = grid[row][col].color;
     }
+}
+// Get a random color
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 }
 // Count the neighbors of a cell
 function countNeighbors(row, col) {
@@ -72,7 +82,7 @@ function countNeighbors(row, col) {
             const newRow = row + i;
             const newCol = col + j;
             if (newRow >= 0 && newRow < GRID_SIZE && newCol >= 0 && newCol < GRID_SIZE) {
-                count += grid[newRow][newCol];
+                count += grid[newRow][newCol].state;
             }
         }
     }
@@ -98,7 +108,7 @@ function resetGame() {
     for (let i = 0; i < GRID_SIZE; i++) {
         grid[i] = [];
         for (let j = 0; j < GRID_SIZE; j++) {
-            grid[i][j] = Math.round(Math.random());
+            grid[i][j] = { state: Math.round(Math.random()), color: DEAD_COLOR };
         }
     }
     const cells = document.getElementsByClassName('cell');
