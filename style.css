@@ -4,7 +4,8 @@
   grid-template-rows: repeat(40, 1fr);
   width: 600px;
   height: 600px;
-  border: 1px solid black;
+  border: 0.1em solid black;
+  margin: 0 auto
 }
 
 .cell {
@@ -13,11 +14,13 @@
 }
 
 #controls {
-  margin-top: 20px;
+  margin-top: 2em;
+  display: flex;
+  justify-content: center;
 }
 
 button {
-  font-size: 16px;
-  padding: 8px 16px;
-  margin-right: 10px;
+  font-size: 1rem;
+  padding: 1em 2em;
+  margin-right: 2em;
 }
