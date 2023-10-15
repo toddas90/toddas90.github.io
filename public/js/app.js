@@ -6,12 +6,15 @@ const CELL_SIZE = 15;
 const DEAD_COLOR = 'white';
 // Get the game board element
 const gameBoard = document.getElementById('gameBoard');
-// Create the grid
 let grid = [];
-for (let i = 0; i < GRID_SIZE; i++) {
-    grid[i] = [];
-    for (let j = 0; j < GRID_SIZE; j++) {
-        grid[i][j] = { state: Math.round(Math.random()), color: DEAD_COLOR };
+let isPaused = true;
+// Create the grid
+function createGrid() {
+    for (let i = 0; i < GRID_SIZE; i++) {
+        grid[i] = [];
+        for (let j = 0; j < GRID_SIZE; j++) {
+            grid[i][j] = { state: Math.round(Math.random()), color: DEAD_COLOR };
+        }
     }
 }
 // Draw the grid
@@ -95,39 +98,46 @@ function startGame() {
     intervalId = setInterval(() => {
         updateGrid();
     }, 100);
+    isPaused = false;
 }
 // Pause the game
 function pauseGame() {
     console.log("Pause game");
     clearInterval(intervalId);
+    isPaused = true;
 }
 // Reset the game
 function resetGame() {
     console.log("Reset game");
     grid = [];
-    for (let i = 0; i < GRID_SIZE; i++) {
-        grid[i] = [];
-        for (let j = 0; j < GRID_SIZE; j++) {
-            grid[i][j] = { state: Math.round(Math.random()), color: DEAD_COLOR };
-        }
-    }
+    createGrid();
     const cells = document.getElementsByClassName('cell');
     for (let i = 0; i < cells.length; i++) {
         cells[i].style.backgroundColor = DEAD_COLOR;
     }
     pauseGame();
 }
+// Step one generation
+function step() {
+    if (isPaused) {
+        console.log("Step");
+        updateGrid();
+    }
+}
 window.onload = () => {
     // Add event listeners to the buttons
     const startBtn = document.getElementById('startBtn');
     const pauseBtn = document.getElementById('pauseBtn');
     const resetBtn = document.getElementById('resetBtn');
-    if (startBtn === null || pauseBtn === null || resetBtn === null) {
+    const stepBtn = document.getElementById('stepBtn');
+    if (startBtn === null || pauseBtn === null || resetBtn === null || stepBtn === null) {
         throw new Error('Could not find buttons');
     }
     startBtn.addEventListener('click', startGame);
     pauseBtn.addEventListener('click', pauseGame);
     resetBtn.addEventListener('click', resetGame);
+    stepBtn.addEventListener('click', step);
     // Draw the grid initially
+    createGrid();
     drawGrid();
 };
